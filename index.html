@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeafBook — Editor &amp; Workspace</title>
+    <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="./fonts.css" rel="stylesheet" />
+    <style>
+      /* Ensure full height layout and smooth scroll transitions */
+      html, body, #root {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-osY9NE4z.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/vendor-BVefdWor.js">
+    <link rel="modulepreload" crossorigin href="./assets/react-vendor-DVk5xU3U.js">
+    <link rel="modulepreload" crossorigin href="./assets/icons-DKoErYfP.js">
+    <link rel="modulepreload" crossorigin href="./assets/marked-t37BmPxv.js">
+    <link rel="stylesheet" crossorigin href="./assets/index-C69Rjfgj.css">
+  </head>
+  <body class="h-full overflow-hidden antialiased select-none bg-slate-50 text-slate-900 transition-colors duration-300">
+    <div id="root" class="h-full flex flex-col overflow-hidden"></div>
+    <script>
+      // PWA Service Worker for offline caching — web only.
+      // Inside Tauri the app is already local, and a cached index.html points to
+      // stale asset hashes after a rebuild, leaving the window blank. So in Tauri
+      // we skip registration and clean up any SW/cache left by a previous build.
+      window.addEventListener('load', () => {
+        if (window.isTauri) {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations()
+              .then((regs) => regs.forEach((r) => r.unregister()))
+              .catch(() => {});
+          }
+          if (window.caches) {
+            caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => {});
+          }
+          return;
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js')
+            .then((registration) => {
+              console.log('PWA Service Worker registrado con éxito:', registration.scope);
+            })
+            .catch((error) => {
+              console.error('Error al registrar PWA Service Worker:', error);
+            });
+        }
+      });
+    </script>
+  </body>
+</html>
+
